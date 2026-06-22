@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KP Kanvas!!!!!!!!</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="brand-banner" aria-label="KP Kanvas">
+        <span class="brand-mark">KP Kanvas!!!!!!!!</span>
+      </header>
+
+      <section id="lobby" class="lobby-panel">
+        <div>
+          <p class="eyebrow">Friends-only drawing game</p>
+          <h1>Draw it before they guess it</h1>
+          <p class="lede">Create a room, share the link, draw badly, guess loudly.</p>
+        </div>
+
+        <form id="lobbyForm" class="lobby-form">
+          <label>
+            Display name
+            <input id="nameInput" maxlength="20" autocomplete="nickname" placeholder="Your name" required />
+          </label>
+          <label>
+            Room code
+            <input id="roomInput" maxlength="10" autocomplete="off" placeholder="Leave blank to create" />
+          </label>
+          <div class="lobby-actions">
+            <button id="createButton" type="button">Create room</button>
+            <button id="joinButton" type="submit" class="secondary">Join room</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="game" class="game-layout hidden">
+        <aside class="side-panel players-panel">
+          <div class="room-header">
+            <div>
+              <span class="label">Room</span>
+              <strong id="roomCode">----------</strong>
+            </div>
+            <button id="copyLinkButton" class="icon-button" type="button" title="Copy invite link">Copy</button>
+          </div>
+
+          <div class="status-stack">
+            <div>
+              <span class="label">Round</span>
+              <strong id="roundLabel">Lobby</strong>
+            </div>
+            <div>
+              <span class="label">Timer</span>
+              <strong id="timerLabel">--</strong>
+            </div>
+            <div>
+              <span class="label">Word</span>
+              <strong id="wordLabel">Waiting</strong>
+            </div>
+          </div>
+
+          <ol id="playersList" class="players-list"></ol>
+
+          <div class="host-actions">
+            <button id="startButton" type="button">Start game</button>
+            <button id="skipButton" type="button" class="secondary">Skip turn</button>
+          </div>
+        </aside>
+
+        <section class="board-panel">
+          <div id="wordChoice" class="word-choice hidden">
+            <p>Choose a word</p>
+            <div id="wordButtons" class="word-buttons"></div>
+          </div>
+
+          <div class="toolbar">
+            <div class="tool-group" aria-label="Colors">
+              <button class="swatch active" type="button" data-color="#111827" style="--swatch: #111827" title="Black"></button>
+              <button class="swatch" type="button" data-color="#ef4444" style="--swatch: #ef4444" title="Red"></button>
+              <button class="swatch" type="button" data-color="#0ea5e9" style="--swatch: #0ea5e9" title="Blue"></button>
+              <button class="swatch" type="button" data-color="#22c55e" style="--swatch: #22c55e" title="Green"></button>
+              <button class="swatch" type="button" data-color="#f59e0b" style="--swatch: #f59e0b" title="Yellow"></button>
+            </div>
+            <label class="size-control">
+              Size
+              <input id="sizeInput" type="range" min="2" max="24" value="6" />
+            </label>
+            <button id="clearButton" type="button" class="secondary">Clear</button>
+          </div>
+
+          <canvas id="canvas" width="1280" height="800"></canvas>
+        </section>
+
+        <aside class="side-panel chat-panel">
+          <div id="messages" class="messages"></div>
+          <form id="guessForm" class="guess-form">
+            <input id="guessInput" maxlength="80" autocomplete="off" placeholder="Type a guess or chat" />
+            <button type="submit">Send</button>
+          </form>
+        </aside>
+      </section>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
