@@ -277,7 +277,7 @@ function moveStroke(event) {
   const points = state.currentStroke.points;
   const previous = points[points.length - 1];
   points.push(nextPoint);
-  drawStroke({ ...state.currentStroke, points: [previous, nextPoint] });
+  sendStrokeSegment(previous, nextPoint);
 }
 
 function endStroke(event) {
@@ -286,12 +286,18 @@ function endStroke(event) {
   if (event.pointerId != null && els.canvas.hasPointerCapture(event.pointerId)) {
     els.canvas.releasePointerCapture(event.pointerId);
   }
-  const stroke = state.currentStroke;
   state.currentStroke = null;
-  if (stroke.points.length > 1) {
-    state.room.strokes.push(stroke);
-    emitAck("draw:stroke", { stroke });
-  }
+}
+
+function sendStrokeSegment(previous, nextPoint) {
+  const stroke = {
+    points: [previous, nextPoint],
+    color: state.color,
+    size: state.size
+  };
+  state.room.strokes.push(stroke);
+  drawStroke(stroke);
+  emitAck("draw:stroke", { stroke });
 }
 
 function canDraw() {
